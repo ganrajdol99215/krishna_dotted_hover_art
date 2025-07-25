@@ -1,17 +1,13 @@
 let img;
 let song;
 let started = false;
-let titleOpacity = 0;
-let clickOpacity = 0;
-let showHint = false;
+let scaleFactor = 1;
 
 function preload() {
   img = loadImage("krishna.png");
   soundFormats('mp3', 'ogg');
   song = loadSound("krishna_bg_music.mp3");
 }
-
-let scaleFactor = 1;
 
 function setup() {
   scaleFactor = min(windowWidth / img.width, windowHeight / (img.height + 100));
@@ -24,63 +20,44 @@ function setup() {
 function draw() {
   background(0, 0, 10, 50);
 
-  // Animate glowing title (after start)
-  if (started && titleOpacity < 255) {
-    titleOpacity += 2;
-  }
-
-  // Glowing "Click to Begin" before interaction
   if (!started) {
-    clickOpacity = 128 + 128 * sin(millis() / 500);
-    fill(255, clickOpacity);
-    textSize(22);
-    text("Click anywhere to begin your divine journey", width / 2, height / 2 + 20);
+    fill(255);
+    textSize(24 * scaleFactor);
+    text("Tap anywhere to begin", width / 2, height / 2);
     return;
   }
 
-  // Krishna dotted image
   for (let dot of krishnaDots) {
     dot.update();
-    dot.show();
+    dot.show(scaleFactor);
   }
 
-  // Show tooltip on hover
-  if (mouseX > 0 && mouseX < width && mouseY > 100 && mouseY < height) {
-    showHint = true;
-  } else {
-    showHint = false;
-  }
+  fill(255);
+  textSize(22 * scaleFactor);
+  text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - 60 * scaleFactor);
 
-  if (showHint) {
-    fill(255, 220);
-    textSize(16);
-    text("Move cursor outside the image to see it clearly", width / 2, height - 25);  // moved up
-  }
-
-  // Spiritual Sanskrit line (moved upward)
-  if (started) {
-    textSize(32);
-    fill(255, 204, 0, titleOpacity);
-    text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - 60); // moved up
+  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+    textSize(16 * scaleFactor);
+    text("Move cursor outside the image to see it clearly", width / 2, height - 30 * scaleFactor);
   }
 }
 
 function mousePressed() {
   if (!started) {
     extractDotsFromImage(img);
-    song.loop();
     song.setVolume(0.4);
+    song.loop();
     started = true;
   } else {
     for (let dot of krishnaDots) {
-      let explosion = p5.Vector.sub(dot.pos, createVector(mouseX, mouseY));
+      let explosion = p5.Vector.sub(dot.pos, createVector(mouseX / scaleFactor, mouseY / scaleFactor));
       explosion.setMag(30);
       dot.pos.add(explosion);
     }
   }
 }
+
 function windowResized() {
   scaleFactor = min(windowWidth / img.width, windowHeight / (img.height + 100));
   resizeCanvas(img.width * scaleFactor, (img.height + 100) * scaleFactor);
 }
-
