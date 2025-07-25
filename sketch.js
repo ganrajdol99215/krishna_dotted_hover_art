@@ -59,7 +59,7 @@ if (!started) {
   }
 }
 
- } else {
+ else {
     // 🚫 Disable explosion on mobile after first tap
     if (windowWidth > 768) {
       for (let dot of krishnaDots) {
