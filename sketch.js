@@ -35,10 +35,10 @@ function draw() {
   textSize(22 * scaleFactor);
   text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - 60 * scaleFactor);
 
-  if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
-    textSize(16 * scaleFactor);
-    text("Move cursor outside the image to see it clearly", width / 2, height - 30 * scaleFactor);
-  }
+  if (!touches.length && !mouseIsPressed) {
+  textSize(16 * scaleFactor);
+  text("Move cursor outside the image to see it clearly", width / 2, height - 30 * scaleFactor);
+}
 }
 
 function mousePressed() {
