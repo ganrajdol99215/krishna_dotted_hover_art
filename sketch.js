@@ -76,4 +76,8 @@ function mousePressed() {
     }
   }
 }
+function windowResized() {
+  scaleFactor = min(windowWidth / img.width, windowHeight / (img.height + 100));
+  resizeCanvas(img.width * scaleFactor, (img.height + 100) * scaleFactor);
+}
 
