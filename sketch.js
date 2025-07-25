@@ -35,27 +35,30 @@ function draw() {
   textSize(22 * scaleFactor);
   text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - 60 * scaleFactor);
 
-  if (!touches.length && !mouseIsPressed) {
+  if (windowWidth > 768 && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
   textSize(16 * scaleFactor);
   text("Move cursor outside the image to see it clearly", width / 2, height - 30 * scaleFactor);
 }
+
 }
 
-function mousePressed() {
-  if (!started) {
-    extractDotsFromImage(img);
-    song = loadSound("krishna_bg_music.mp3", () => {
-      song.setVolume(0.4);
-      song.loop();
-    });
-    started = true;
+if (!started) {
+  extractDotsFromImage(img);
+  song = loadSound("krishna_bg_music.mp3", () => {
+    song.setVolume(0.4);
+    song.loop();
+  });
+  started = true;
 
-    // 🔥 First explosion allowed on all devices
-    for (let dot of krishnaDots) {
-      let explosion = p5.Vector.sub(dot.pos, createVector(mouseX / scaleFactor, mouseY / scaleFactor));
-      explosion.setMag(30);
-      dot.pos.add(explosion);
-    }
+  let explosionStrength = windowWidth < 768 ? 50 : 30; // 🔥 Stronger on mobile
+
+  for (let dot of krishnaDots) {
+    let explosion = p5.Vector.sub(dot.pos, createVector(mouseX / scaleFactor, mouseY / scaleFactor));
+    explosion.setMag(explosionStrength);
+    dot.pos.add(explosion);
+  }
+}
+
 
   } else {
     // 🚫 Disable explosion on mobile after first tap
