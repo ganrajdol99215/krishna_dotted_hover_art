@@ -11,8 +11,11 @@ function preload() {
   song = loadSound("krishna_bg_music.mp3");
 }
 
+let scaleFactor = 1;
+
 function setup() {
-  createCanvas(img.width, img.height + 100); // canvas taller than image
+  scaleFactor = min(windowWidth / img.width, windowHeight / (img.height + 100));
+  createCanvas(img.width * scaleFactor, (img.height + 100) * scaleFactor);
   textAlign(CENTER, CENTER);
   textFont('Georgia');
   frameRate(60);
