@@ -41,7 +41,7 @@ function draw() {
 }
 
 }
-
+function mousePressed() {
 if (!started) {
   extractDotsFromImage(img);
   song = loadSound("krishna_bg_music.mp3", () => {
@@ -59,8 +59,7 @@ if (!started) {
   }
 }
 
-
-  } else {
+ } else {
     // 🚫 Disable explosion on mobile after first tap
     if (windowWidth > 768) {
       for (let dot of krishnaDots) {
