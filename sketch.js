@@ -5,8 +5,7 @@ let scaleFactor = 1;
 
 function preload() {
   img = loadImage("krishna.png");
-  soundFormats('mp3', 'ogg');
-  song = loadSound("krishna_bg_music.mp3");
+  // DO NOT preload the song
 }
 
 function setup() {
@@ -45,19 +44,24 @@ function draw() {
 function mousePressed() {
   if (!started) {
     extractDotsFromImage(img);
-    song.setVolume(0.4);
-    song.loop();
-    started = true;
-  } else {
-    for (let dot of krishnaDots) {
-      let explosion = p5.Vector.sub(dot.pos, createVector(mouseX / scaleFactor, mouseY / scaleFactor));
-      explosion.setMag(30);
-      dot.pos.add(explosion);
+    if (!song || !song.isPlaying()) {
+      song = loadSound("krishna_bg_music.mp3", () => {
+        song.setVolume(0.4);
+        song.loop();
+      }, 
+      (err) => {
+        console.error("Failed to load sound:", err);
+      });
     }
+    started = true;
   }
 }
+
 
 function windowResized() {
   scaleFactor = min(windowWidth / img.width, windowHeight / (img.height + 100));
   resizeCanvas(img.width * scaleFactor, (img.height + 100) * scaleFactor);
+}
+function touchStarted() {
+  mousePressed(); // trigger the same logic for mobile taps
 }
