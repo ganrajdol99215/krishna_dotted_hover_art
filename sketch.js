@@ -19,8 +19,10 @@ function setup() {
   textAlign(CENTER, CENTER);
   textFont('Georgia');
   frameRate(60);
-  scaleFactor = min(windowWidth / img.width, windowHeight / (img.height + 100));
-  extractDotsFromImage(img);
+  scaleFactor = min(
+  (windowWidth * 0.85) / img.width,           // 15% horizontal margin
+  (windowHeight * 0.7) / (img.height + 100)   // 30% vertical padding
+);
 }
 
 function draw() {
