@@ -82,13 +82,15 @@ function mousePressed() {
 
 // 🌌 Slower elegant galaxy rotating around Krishna
 function drawGalaxyAroundKrishna() {
+  if (windowWidth < 768) return; // 📱 Skip Milky Way on mobile
+
   if (galaxyStars.length === 0) {
     const arms = 5;
     const totalStars = 1800;
 
     for (let i = 0; i < totalStars; i++) {
       const armOffset = TWO_PI / arms * (i % arms);
-      const radius = random(safeZoneRadius + 30, width * 0.55);
+      const radius = random(160 + 30, width * 0.55);
       const spiralAngle = radius * 0.07;
       const baseAngle = spiralAngle + armOffset + random(-0.4, 0.4);
 
@@ -96,7 +98,7 @@ function drawGalaxyAroundKrishna() {
         baseAngle: baseAngle,
         radius: radius,
         angle: baseAngle,
-        speed: map(radius, safeZoneRadius + 30, width * 0.55, 0.008, 0.002), // slower
+        speed: map(radius, 160 + 30, width * 0.55, 0.008, 0.002),
         size: random(1.0, 2.5),
         alpha: random(150, 255)
       });
@@ -124,6 +126,7 @@ function drawGalaxyAroundKrishna() {
   blendMode(BLEND);
   pop();
 }
+
 
 // 🔆 Divine light aura (like spotlight) behind Krishna — always active
 function drawDivineSpotlight() {
