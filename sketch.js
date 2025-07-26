@@ -31,26 +31,22 @@ function draw() {
   drawSudarshanChakra();          // 🛡️ Sudarshan Chakra (behind Krishna)
 
   if (started) {
-    for (let dot of krishnaDots) {
-      dot.update();
-      dot.show(scaleFactor);
-    }
+  fill(255);
+  textSize(width < 480 ? 16 : 22 * scaleFactor); // smaller font on mobile
+  text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - 60 * scaleFactor);
+}
 
-    fill(255);
-    textSize(22 * scaleFactor);
-    text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - 50 * scaleFactor);
-  }
+if (!started) {
+  fill(255);
+  textSize(width < 480 ? 18 : 24 * scaleFactor);
+  text("Tap anywhere to begin", width / 2, height / 1.3);
+}
 
-  if (!started) {
-    fill(255);
-    textSize(20 * scaleFactor);
-    text("Tap or click anywhere to begin", width / 2, height / 1.3);
-  }
 }
 function drawSudarshanChakra() {
   if (chakraAlpha > 0) {
     push();
-    translate(width / 2, height / 2);
+    translate(width / 2, height / 2 - 20);
     rotate(chakraAngle);
     imageMode(CENTER);
     tint(255, chakraAlpha); // Alpha fade
