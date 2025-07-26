@@ -85,20 +85,33 @@ function drawSudarshanChakra() {
     //}}
 //}
 function touchStarted() {
+  console.log("🔊 Tap detected");
+
   if (!started) {
     started = true;
 
+    // Important: Resume the audio context for Chrome/Brave
     if (getAudioContext().state !== 'running') {
-      getAudioContext().resume();
-    }
+      getAudioContext().resume().then(() => {
+        console.log("🎧 AudioContext resumed");
 
-    if (!song.isPlaying()) {
-      song.setVolume(0.9);
-      song.loop();
+        // Delay added to ensure load
+        if (song && !song.isPlaying()) {
+          song.setVolume(0.9);
+          song.loop();
+          console.log("🎵 Song started");
+        }
+      });
+    } else {
+      if (song && !song.isPlaying()) {
+        song.setVolume(0.9);
+        song.loop();
+        console.log("🎵 Song started (already resumed)");
+      }
     }
   }
 
-  return false; // Prevent scrolling
+  return false;
 }
 function mousePressed() {
   touchStarted(); // Reuse touch handler for desktop
