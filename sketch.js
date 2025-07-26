@@ -84,37 +84,40 @@ function drawSudarshanChakra() {
       //song.loop();              // ✅ Looping behavior here
     //}}
 //}
-function touchStarted() {
-  console.log("🔊 Tap detected");
-
+function mousePressed() {
+  // Works for desktop and mobile
   if (!started) {
     started = true;
-
-    // Important: Resume the audio context for Chrome/Brave
-    if (getAudioContext().state !== 'running') {
-      getAudioContext().resume().then(() => {
-        console.log("🎧 AudioContext resumed");
-
-        // Delay added to ensure load
-        if (song && !song.isPlaying()) {
-          song.setVolume(0.9);
-          song.loop();
-          console.log("🎵 Song started");
-        }
-      });
-    } else {
-      if (song && !song.isPlaying()) {
-        song.setVolume(0.9);
-        song.loop();
-        console.log("🎵 Song started (already resumed)");
-      }
-    }
+    unlockAudioAndPlay();
   }
+}
 
+function touchStarted() {
+  if (!started) {
+    started = true;
+    unlockAudioAndPlay();
+  }
   return false;
 }
-function mousePressed() {
-  touchStarted(); // Reuse touch handler for desktop
+
+function unlockAudioAndPlay() {
+  const context = getAudioContext();
+  if (context.state !== 'running') {
+    context.resume().then(() => {
+      console.log("🎧 Audio resumed");
+      startMusic();
+    });
+  } else {
+    startMusic();
+  }
+}
+
+function startMusic() {
+  if (song && !song.isPlaying()) {
+    song.setVolume(0.9);
+    song.loop(); // ✅ ensures continuous playback
+    console.log("🎵 Music started");
+  }
 }
 
 
