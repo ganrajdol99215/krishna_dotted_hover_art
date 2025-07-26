@@ -108,20 +108,20 @@ function mousePressed() {
 
 
 // 🌌 Slower elegant galaxy rotating around Krishna
-function drawGalaxyAroundKrishna() {
+//function drawGalaxyAroundKrishna() {
   if (windowWidth < 768) return; // 📱 Skip Milky Way on mobile
 
   if (galaxyStars.length === 0) {
     const arms = 5;
     const totalStars = 1800;
 
-    for (let i = 0; i < totalStars; i++) {
+    //for (let i = 0; i < totalStars; i++) {
       const armOffset = TWO_PI / arms * (i % arms);
       const radius = random(160 + 30, width * 0.55);
       const spiralAngle = radius * 0.07;
       const baseAngle = spiralAngle + armOffset + random(-0.4, 0.4);
 
-      galaxyStars.push({
+    //  galaxyStars.push({
         baseAngle: baseAngle,
         radius: radius,
         angle: baseAngle,
@@ -130,7 +130,7 @@ function drawGalaxyAroundKrishna() {
         alpha: random(150, 255)
       });
     }
-  }
+ // }
 
   push();
   translate(width / 2, height / 2);
