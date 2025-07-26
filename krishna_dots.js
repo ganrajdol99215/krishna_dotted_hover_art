@@ -1,3 +1,4 @@
+
 let krishnaDots = [];
 
 class Dot {
@@ -5,44 +6,34 @@ class Dot {
     this.origin = createVector(x, y);
     this.pos = createVector(x, y);
     this.color = c;
+    this.velocity = p5.Vector.random2D().mult(random(3, 7));
+    this.exploded = false;
   }
 
- update() {
-  let towardOrigin = p5.Vector.sub(this.origin, this.pos);
-  this.pos.add(towardOrigin.mult(0.1)); // Snap back to origin
-
-  let isInteracting = false;
-
-  // Detect if mouse is over the canvas on desktop
-  if (windowWidth > 768) {
-    isInteracting = mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height;
+  update() {
+    if (!this.exploded && started) {
+      this.pos.add(this.velocity);
+      this.velocity.mult(0.95);
+      if (this.velocity.mag() < 0.2) {
+        this.exploded = true;
+      }
+    } else {
+      let towardOrigin = p5.Vector.sub(this.origin, this.pos);
+      this.pos.add(towardOrigin.mult(0.08));
+    }
   }
-
-  // Detect touch on mobile
-  if (windowWidth <= 768 && touches.length > 0) {
-    isInteracting = true;
-  }
-
-  // If user interacting, float the dot randomly
-  if (isInteracting) {
-    this.pos.x += random(-1.5, 1.5);
-    this.pos.y += random(-1.5, 1.5);
-  }
-}
-
-
-
-
 
   show(scale) {
     noStroke();
     fill(this.color);
-    ellipse(this.pos.x * scale, this.pos.y * scale, 2 * scale);
+    ellipse(this.pos.x, this.pos.y, 2 * scale);
   }
 }
 
 function extractDotsFromImage(img) {
   img.loadPixels();
+  let offsetX = (width - img.width) / 2;
+  let offsetY = (height - img.height) / 2;
   for (let y = 0; y < img.height; y += 4) {
     for (let x = 0; x < img.width; x += 4) {
       let index = (x + y * img.width) * 4;
@@ -52,7 +43,7 @@ function extractDotsFromImage(img) {
       let a = img.pixels[index + 3];
       if (a > 100) {
         let c = color(r, g, b);
-        krishnaDots.push(new Dot(x, y, c));
+        krishnaDots.push(new Dot(x + offsetX, y + offsetY, c));
       }
     }
   }
