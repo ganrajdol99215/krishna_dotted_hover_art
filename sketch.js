@@ -75,17 +75,18 @@ function mousePressed() {
   if (!started) {
     started = true;
 
-    // Important: Restart audio context (needed for iOS/Android sometimes)
+    // 📱 Fix for mobile: Ensure audio context is resumed
     if (getAudioContext().state !== 'running') {
       getAudioContext().resume();
     }
 
     if (!song.isPlaying()) {
-      song.setVolume(0.9); // set to non-zero
+      song.setVolume(0.9); // Make sure volume isn't 0
       song.play();
     }
   }
 }
+
 
 
 // 🌌 Slower elegant galaxy rotating around Krishna
