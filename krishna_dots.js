@@ -3,8 +3,12 @@ let krishnaDots = [];
 
 class Dot {
   constructor(x, y, c) {
-    this.origin = createVector(x, y);
-    this.pos = createVector(x, y);
+    // 💡 Center the image in canvas
+    const xOffset = (windowWidth - img.width * scaleFactor) / 2;
+    const yOffset = (windowHeight - img.height * scaleFactor) / 2;
+
+    this.origin = createVector(x * scaleFactor + xOffset, y * scaleFactor + yOffset);
+    this.pos = this.origin.copy();
     this.color = c;
     this.velocity = p5.Vector.random2D().mult(random(3, 7));
     this.exploded = false;
@@ -14,9 +18,7 @@ class Dot {
     if (!this.exploded && started) {
       this.pos.add(this.velocity);
       this.velocity.mult(0.95);
-      if (this.velocity.mag() < 0.2) {
-        this.exploded = true;
-      }
+      if (this.velocity.mag() < 0.2) this.exploded = true;
     } else {
       let towardOrigin = p5.Vector.sub(this.origin, this.pos);
       this.pos.add(towardOrigin.mult(0.08));
@@ -29,6 +31,7 @@ class Dot {
     ellipse(this.pos.x, this.pos.y, 2 * scale);
   }
 }
+
 
 function extractDotsFromImage(img) {
   img.loadPixels();
