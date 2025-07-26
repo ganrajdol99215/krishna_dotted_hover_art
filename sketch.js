@@ -31,17 +31,23 @@ function draw() {
   drawSudarshanChakra();          // 🛡️ Sudarshan Chakra (behind Krishna)
 
   if (started) {
-  fill(255);
-  textSize(width < 480 ? 16 : 22 * scaleFactor); // smaller font on mobile
-  text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - 60 * scaleFactor);
-}
+    for (let dot of krishnaDots) {
+      dot.update();
+      dot.show(scaleFactor);
+    }
 
-if (!started) {
-  fill(255);
-  textSize(width < 480 ? 18 : 24 * scaleFactor);
-  text("Tap anywhere to begin", width / 2, height / 1.3);
-}
+    fill(255);
+    textSize(22 * scaleFactor);
+    let yOffset = height < 600 ? 30 : 60;
 
+text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - yOffset * scaleFactor);
+  }
+
+  if (!started) {
+    fill(255);
+    textSize(17 * scaleFactor);
+    text("Tap or click anywhere to begin", width / 2, height / 1.3);
+  }
 }
 function drawSudarshanChakra() {
   if (chakraAlpha > 0) {
