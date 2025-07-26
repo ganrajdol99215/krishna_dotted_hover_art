@@ -5,7 +5,6 @@ let chakraAngle = 0;
 let chakraAlpha = 255;
 let started = false;
 let scaleFactor = 1;
-let galaxyStars = [];
 let safeZoneRadius = 160;
 
 function preload() {
@@ -27,7 +26,7 @@ function setup() {
 function draw() {
   background(0);
 
-  drawGalaxyAroundKrishna();      // 🌌 Milky Way
+       // 🌌 Milky Way
   drawSudarshanChakra();          // 🛡️ Sudarshan Chakra (behind Krishna)
 
   if (started) {
@@ -37,10 +36,10 @@ function draw() {
     }
 
     fill(255);
-    textSize(22 * scaleFactor);
-    let yOffset = height < 600 ? 30 : 60;
+    textSize(28 * scaleFactor);
+    let yOffset = height < 600 ? 30 : 40;
 
-text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - yOffset * scaleFactor);
+text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height  - yOffset * scaleFactor);
   }
 
   if (!started) {
@@ -75,17 +74,18 @@ function mousePressed() {
   if (!started) {
     started = true;
 
-    // 📱 Fix for mobile: Ensure audio context is resumed
+    // Resume audio context for mobile/iOS
     if (getAudioContext().state !== 'running') {
       getAudioContext().resume();
     }
 
     if (!song.isPlaying()) {
-      song.setVolume(0.9); // Make sure volume isn't 0
-      song.play();
+      song.setVolume(0.9);      // ✅ Ensure volume is audible
+      song.loop();              // ✅ Looping behavior here
     }
   }
 }
+
 
 
 
