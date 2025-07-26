@@ -70,20 +70,38 @@ function drawSudarshanChakra() {
 
 
 
-function mousePressed() {
+//function mousePressed() {
+//  if (!started) {
+    //started = true;
+
+    // Resume audio context for mobile/iOS
+  //if (getAudioContext().state !== 'running') {
+     // getAudioContext().resume();
+   // }
+
+   // if (!song.isPlaying()) {
+  //song.setVolume(0.9);      // ✅ Ensure volume is audible
+      //song.loop();              // ✅ Looping behavior here
+    //}}
+//}
+function touchStarted() {
   if (!started) {
     started = true;
 
-    // Resume audio context for mobile/iOS
     if (getAudioContext().state !== 'running') {
       getAudioContext().resume();
     }
 
     if (!song.isPlaying()) {
-      song.setVolume(0.9);      // ✅ Ensure volume is audible
-      song.loop();              // ✅ Looping behavior here
+      song.setVolume(0.9);
+      song.loop();
     }
   }
+
+  return false; // Prevent scrolling
+}
+function mousePressed() {
+  touchStarted(); // Reuse touch handler for desktop
 }
 
 
