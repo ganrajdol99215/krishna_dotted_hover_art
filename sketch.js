@@ -74,11 +74,19 @@ function drawSudarshanChakra() {
 function mousePressed() {
   if (!started) {
     started = true;
+
+    // Important: Restart audio context (needed for iOS/Android sometimes)
+    if (getAudioContext().state !== 'running') {
+      getAudioContext().resume();
+    }
+
     if (!song.isPlaying()) {
+      song.setVolume(0.9); // set to non-zero
       song.play();
     }
   }
 }
+
 
 // 🌌 Slower elegant galaxy rotating around Krishna
 function drawGalaxyAroundKrishna() {
