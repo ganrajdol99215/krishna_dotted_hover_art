@@ -81,7 +81,7 @@ function mousePressed() {
 
    if (!song.isPlaying()) {
   song.setVolume(1);      // ✅ Ensure volume is audible
-      song.loop();              // ✅ Looping behavior here
+      //song.loop();             // ✅ Looping behavior here
     }}
 }
 
