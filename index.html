@@ -11,12 +11,13 @@
   </style>
 </head>
 <body>
-  <!-- Load p5.js and p5.sound -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js"></script>
+  <!-- ✅ Hidden audio -->
+  <audio id="bgMusic" src="krishna_bg_music.mp3" preload="auto"></audio>
 
-  <!-- Load your files -->
- <audio id="bgMusic" src="krishna_bg_music.mp3" preload="auto"></audio>
+  <!-- ✅ Only p5.js, no p5.sound -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+
+  <!-- Your scripts -->
   <script src="krishna_dots.js"></script>
   <script src="sketch.js"></script>
 </body>
