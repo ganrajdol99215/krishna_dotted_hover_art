@@ -14,18 +14,7 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  audioElem = document.getElementById("bgMusic");  // ✅ reference DOM audio
-  textAlign(CENTER, CENTER);
-  textFont('Georgia');
-  frameRate(60);
-  scaleFactor = min(windowWidth / img.width, windowHeight / (img.height + 100));
-  extractDotsFromImage(img);
-}
-
-
-
-function setup() {
-  createCanvas(windowWidth, windowHeight);
+  audioElem = document.getElementById("bgMusic");
   textAlign(CENTER, CENTER);
   textFont('Georgia');
   frameRate(60);
@@ -35,9 +24,7 @@ function setup() {
 
 function draw() {
   background(0);
-
-       // 🌌 Milky Way
-  drawSudarshanChakra();          // 🛡️ Sudarshan Chakra (behind Krishna)
+  drawSudarshanChakra();
 
   if (started) {
     for (let dot of krishnaDots) {
@@ -48,8 +35,7 @@ function draw() {
     fill(255);
     textSize(28 * scaleFactor);
     let yOffset = height < 600 ? 30 : 40;
-
-text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height  - yOffset * scaleFactor);
+    text("कृष्णं वन्दे जगद्गुरुम्", width / 2, height - yOffset * scaleFactor);
   }
 
   if (!started) {
@@ -58,25 +44,25 @@ text("कृष्णं वन्दे जगद्गुरुम्", width 
     text("Tap or click anywhere to begin", width / 2, height / 1.3);
   }
 }
+
 function drawSudarshanChakra() {
   if (chakraAlpha > 0) {
     push();
     translate(width / 2, height / 2 - 20);
     rotate(chakraAngle);
     imageMode(CENTER);
-    tint(255, chakraAlpha); // Alpha fade
+    tint(255, chakraAlpha);
     const chakraSize = min(width, height) * 0.55;
     image(chakraImg, 0, 0, chakraSize, chakraSize);
     pop();
 
-    chakraAngle += 0.01; // Slightly faster rotation
+    chakraAngle += 0.01;
 
     if (started) {
-      chakraAlpha -= 2.5; // Fade out after tap
+      chakraAlpha -= 2.5;
     }
   }
 }
-
 
 function mousePressed() {
   if (!started) {
@@ -93,12 +79,6 @@ function mousePressed() {
   }
 }
 
-
 function touchStarted() {
   mousePressed();
 }
-
-
-
-
-
