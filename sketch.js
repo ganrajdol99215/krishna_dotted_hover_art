@@ -71,8 +71,9 @@ function drawSudarshanChakra() {
 
 
 function mousePressed() {
- if (!started) {
+   if (!started) {
     started = true;
+     console.log("User tapped or clicked.");
 
     // Resume audio context for mobile/iOS
   if (getAudioContext().state !== 'running') {
@@ -85,6 +86,10 @@ function mousePressed() {
     }
  }
 }
+function touchStarted() {
+  mousePressed(); // reuse same logic
+}
+
 
 
 
