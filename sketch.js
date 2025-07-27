@@ -66,16 +66,18 @@ function drawSudarshanChakra() {
 
 function mousePressed() {
   if (!started) {
-    audioElem.volume = 0.9;
-    audioElem.loop = true;
-    audioElem.play().then(() => {
-      console.log("🎵 Playing");
-    }).catch(err => {
-      console.warn("⚠️ Playback blocked:", err);
-    });
-
+    started = true; // mark started early to avoid double taps
     extractDotsFromImage(img);
-    started = true;
+
+    setTimeout(() => {
+      audioElem.volume = 0.9;
+      audioElem.loop = true;
+      audioElem.play().then(() => {
+        console.log("🎵 Playing");
+      }).catch(err => {
+        console.warn("⚠️ Playback blocked after timeout:", err);
+      });
+    }, 50); // small delay lets it work on Android Chrome
   }
 }
 
