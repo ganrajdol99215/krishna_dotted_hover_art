@@ -1,5 +1,5 @@
+let audioElem;
 let img;
-let song;
 let chakraImg;
 let chakraAngle = 0;
 let chakraAlpha = 255;
@@ -9,12 +9,19 @@ let safeZoneRadius = 160;
 
 function preload() {
   img = loadImage("krishna.png");
-  song = loadSound("krishna_bg_music.mp3",
-    () => console.log("✅ Sound loaded."),
-    (err) => console.error("❌ Sound failed to load:", err)
-  );
   chakraImg = loadImage("sudarshana-chakra-fiery-disc-attribute-weapon-lord-krishna-religious-symbol-hinduism-vector-illustration-95286952-removebg-preview.png");
 }
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  audioElem = document.getElementById("bgMusic");  // ✅ reference DOM audio
+  textAlign(CENTER, CENTER);
+  textFont('Georgia');
+  frameRate(60);
+  scaleFactor = min(windowWidth / img.width, windowHeight / (img.height + 100));
+  extractDotsFromImage(img);
+}
+
 
 
 function setup() {
@@ -73,21 +80,23 @@ function drawSudarshanChakra() {
 
 function mousePressed() {
   if (!started) {
-    if (song && song.isLoaded()) {
-      song.setVolume(0.9);
-      song.loop(); // ✅ Works if directly in user gesture
-      extractDotsFromImage(img);
-      started = true;
-    } else {
-      console.warn("Song not yet loaded.");
-    }
+    audioElem.volume = 0.9;
+    audioElem.loop = true;
+    audioElem.play().then(() => {
+      console.log("🎵 Playing");
+    }).catch(err => {
+      console.warn("⚠️ Playback blocked:", err);
+    });
+
+    extractDotsFromImage(img);
+    started = true;
   }
 }
 
-function touchStarted() {
-  mousePressed();  // reuse same logic
-}
 
+function touchStarted() {
+  mousePressed();
+}
 
 
 
