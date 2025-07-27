@@ -68,24 +68,31 @@ function drawSudarshanChakra() {
 }
 
 
-
-
 function mousePressed() {
-   if (!started) {
+  console.log("User tapped or clicked.");
+
+  if (!started) {
     started = true;
-     console.log("User tapped or clicked.");
 
-    // Resume audio context for mobile/iOS
-  if (getAudioContext().state !== 'running') {
-     getAudioContext().resume();
+    // Resume audio context first
+    if (getAudioContext().state !== 'running') {
+      getAudioContext().resume().then(() => {
+        console.log("Audio context resumed.");
+      });
     }
 
-   if (!song.isPlaying()) {
-  song.setVolume(0.9);      // ✅ Ensure volume is audible
-      song.loop();             // ✅ Looping behavior here
+    // Confirm song is loaded before playing
+    if (song && song.isLoaded()) {
+      console.log("Song is loaded, attempting to play...");
+      song.setVolume(0.9);
+      song.loop();
+    } else {
+      console.warn("Song is NOT loaded yet. Will retry in 500ms.");
+      setTimeout(mousePressed, 500); // retry after short delay
     }
- }
+  }
 }
+
 function touchStarted() {
   mousePressed(); // reuse same logic
 }
