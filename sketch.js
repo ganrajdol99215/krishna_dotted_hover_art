@@ -72,32 +72,17 @@ function drawSudarshanChakra() {
 
 
 function mousePressed() {
-  console.log("User tapped or clicked.");
-
   if (!started) {
-    started = true;
-
     if (song && song.isLoaded()) {
-      console.log("Song is loaded, resuming audio context...");
-
-      getAudioContext().resume().then(() => {
-        console.log("✅ Audio context resumed. Playing song...");
-        if (!song.isPlaying()) {
-          song.setVolume(0.9);
-          song.play(); // use play first
-          song.onended(() => song.play()); // manually loop
-        }
-      }).catch((err) => {
-        console.error("❌ Audio context resume failed:", err);
-      });
-
+      song.setVolume(0.9);
+      song.loop(); // ✅ Works if directly in user gesture
+      extractDotsFromImage(img);
+      started = true;
     } else {
-      console.warn("Song is not yet loaded. Retrying in 300ms...");
-      setTimeout(mousePressed, 300);
+      console.warn("Song not yet loaded.");
     }
   }
 }
-
 
 function touchStarted() {
   mousePressed();  // reuse same logic
