@@ -77,7 +77,7 @@ function mousePressed() {
       }).catch(err => {
         console.warn("⚠️ Playback blocked after timeout:", err);
       });
-    }, 50); // small delay lets it work on Android Chrome
+    }, 10); // small delay lets it work on Android Chrome
   }
 }
 
