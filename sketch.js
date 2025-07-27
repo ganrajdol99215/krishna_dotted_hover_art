@@ -9,7 +9,10 @@ let safeZoneRadius = 160;
 
 function preload() {
   img = loadImage("krishna.png");
-  song = loadSound("krishna_bg_music.mp3");
+  song = loadSound("krishna_bg_music.mp3",
+    () => console.log("✅ Sound loaded."),
+    (err) => console.error("❌ Sound failed to load:", err)
+  );
   chakraImg = loadImage("sudarshana-chakra-fiery-disc-attribute-weapon-lord-krishna-religious-symbol-hinduism-vector-illustration-95286952-removebg-preview.png");
 }
 
@@ -74,28 +77,30 @@ function mousePressed() {
   if (!started) {
     started = true;
 
-    // Resume audio context first
-    if (getAudioContext().state !== 'running') {
-      getAudioContext().resume().then(() => {
-        console.log("Audio context resumed.");
-      });
-    }
-
-    // Confirm song is loaded before playing
     if (song && song.isLoaded()) {
-      console.log("Song is loaded, attempting to play...");
-      song.isPlaying()
-      song.setVolume(0.9);
-      song.loop();
+      console.log("Song is loaded, resuming audio context...");
+
+      getAudioContext().resume().then(() => {
+        console.log("✅ Audio context resumed. Playing song...");
+        if (!song.isPlaying()) {
+          song.setVolume(0.9);
+          song.play(); // use play first
+          song.onended(() => song.play()); // manually loop
+        }
+      }).catch((err) => {
+        console.error("❌ Audio context resume failed:", err);
+      });
+
     } else {
-      console.warn("Song is NOT loaded yet. Will retry in 500ms.");
-      setTimeout(mousePressed, 500); // retry after short delay
+      console.warn("Song is not yet loaded. Retrying in 300ms...");
+      setTimeout(mousePressed, 300);
     }
   }
 }
 
+
 function touchStarted() {
-  mousePressed(); // reuse same logic
+  mousePressed();  // reuse same logic
 }
 
 
