@@ -84,6 +84,7 @@ function mousePressed() {
     // Confirm song is loaded before playing
     if (song && song.isLoaded()) {
       console.log("Song is loaded, attempting to play...");
+      song.isPlaying()
       song.setVolume(0.9);
       song.loop();
     } else {
