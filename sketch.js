@@ -73,7 +73,7 @@ function mousePressed() {
       }).catch(err => {
         console.warn("⚠️ Playback blocked:", err);
       });
-    }, 5);
+    }, 2);
   }
 }
 
